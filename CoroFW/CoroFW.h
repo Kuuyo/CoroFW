@@ -1,10 +1,23 @@
 #pragma once
-class CoroFW
+#include <vector>
+#include <functional>
+#include "Result.h"
+
+namespace CFW
 {
-public:
-	CoroFW();
-	~CoroFW();
+	class CoroFW
+	{
+	public:
+		CoroFW();
+		~CoroFW();
 
-private:
+		void Update();
 
-};
+		void AddCoroutine(const Result &coro);
+		void RemoveCoroutine();
+		void RemoveAll();
+
+	private:
+		std::vector<Result> m_CoroVec;
+	};
+}
