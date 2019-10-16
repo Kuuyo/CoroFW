@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Result.h"
 
+#include <iostream>
+
 namespace CFW
 {
 	Result Result::promise_type::get_return_object()
@@ -29,7 +31,8 @@ namespace CFW
 
 	Result::~Result()
 	{
-		m_CoroHandle.destroy(); std::cout << "DTOR\n";
+		m_CoroHandle.destroy();
+		std::cout << "DTOR\n";
 	}
 
 	bool Result::Resume() const

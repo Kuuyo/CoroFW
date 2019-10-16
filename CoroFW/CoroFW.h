@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include <functional>
 #include "Result.h"
 
 namespace CFW
@@ -14,10 +13,11 @@ namespace CFW
 		void Update();
 
 		void AddCoroutine(const Result &coro);
-		void RemoveCoroutine();
+		void RemoveCoroutine(const Result& coro);
 		void RemoveAll();
 
 	private:
 		std::vector<Result> m_CoroVec;
+		std::vector<Result*> m_DeleteVec;
 	};
 }

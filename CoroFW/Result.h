@@ -1,9 +1,10 @@
 #pragma once
 #include <experimental/coroutine>
-#include <iostream>
 
 namespace CFW
 {
+	class CoroFW;
+
 	class Result
 	{
 	public:
@@ -17,6 +18,11 @@ namespace CFW
 
 		Result(Result::promise_type* p);
 		~Result();
+
+		inline bool operator==(const Result& rhs) const
+		{
+			return this->m_CoroHandle == rhs.m_CoroHandle;
+		}
 
 		bool Resume() const;
 
