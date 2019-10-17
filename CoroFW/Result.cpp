@@ -31,8 +31,11 @@ namespace CFW
 
 	Result::~Result()
 	{
-		m_CoroHandle.destroy();
-		std::cout << "DTOR\n";
+	}
+
+	void Result::Destroy()
+	{
+		m_CoroHandle.destroy();	
 	}
 
 	bool Result::Resume() const

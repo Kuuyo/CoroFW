@@ -19,10 +19,12 @@ namespace CFW
 		Result(Result::promise_type* p);
 		~Result();
 
-		inline bool operator==(const Result& rhs) const
+		friend bool operator==(const Result& lhs, const Result& rhs)
 		{
-			return this->m_CoroHandle == rhs.m_CoroHandle;
+			return lhs.m_CoroHandle == rhs.m_CoroHandle;
 		}
+
+		void Destroy();
 
 		bool Resume() const;
 
