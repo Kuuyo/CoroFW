@@ -14,7 +14,7 @@ namespace CFW
 
 #define CFW_Yield(coro) co_await coro
 
-#define CFW_YieldNull co_await std::experimental::suspend_always
+#define CFW_YieldNull() co_await std::experimental::suspend_always()
 
 #define CFW_WaitWhile(func) co_await CFW::Yields::WaitWhile(func)
 

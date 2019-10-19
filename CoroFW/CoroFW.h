@@ -11,10 +11,23 @@ namespace CFW
 		~CoroFW();
 
 		void Update();
+		void FixedUpdate();
+		void EndOfFrameUpdate();
+		void DeleteUpdate();
 
 		void AddCoroutine(Handle &coro);
 		void RemoveCoroutine(Handle &coro);
 		void RemoveAll();
+
+		void AddFixedCoroutine(Handle& coro);
+		void RemoveFixedCoroutine(Handle& coro);
+		void RemoveAllFixed();
+
+		void AddEndCoroutine(Handle& coro);
+		void RemoveEndCoroutine(Handle& coro);
+		void RemoveAllEnd();
+
+		void RemoveEverything();
 
 		bool AreCoroutinesRunning();
 
@@ -25,6 +38,12 @@ namespace CFW
 
 	private:
 		std::vector<Handle> m_CoroVec;
+		std::vector<Handle> m_FixedCoroVec;
+		std::vector<Handle> m_EndCoroVec;
 		std::vector<Handle*> m_DeleteVec;
+
+		inline void AddSingleCoroutine(std::vector<Handle>& vec, Handle& coro);
+		inline void RemoveSingleCoroutine(std::vector<Handle>& vec, Handle& coro);
+		inline void RemoveCoroutineVector(std::vector<Handle>& vec);
 	};
 }

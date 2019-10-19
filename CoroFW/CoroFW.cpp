@@ -13,6 +13,7 @@ namespace CFW
 	{
 	}
 
+#pragma region Updates
 	void CoroFW::Update()
 	{
 		for (auto &coro : m_CoroVec)
@@ -20,36 +21,143 @@ namespace CFW
 			if (!coro.Resume())
 				m_DeleteVec.push_back(&coro);
 		}
-		
+
+#ifndef NO_DELETE_UPDATE
+		DeleteUpdate();
+#endif		
+	}
+
+	void CoroFW::FixedUpdate()
+	{
+		for (auto& coro : m_FixedCoroVec)
+		{
+			if (!coro.Resume())
+				m_DeleteVec.push_back(&coro);
+		}
+
+#ifndef NO_DELETE_UPDATE
+		DeleteUpdate();
+#endif	
+	}
+
+	void CoroFW::EndOfFrameUpdate()
+	{
+		for (auto& coro : m_EndCoroVec)
+		{
+			if (!coro.Resume())
+				m_DeleteVec.push_back(&coro);
+		}
+
+#ifndef NO_DELETE_UPDATE
+		DeleteUpdate();
+#endif	
+	}
+
+	void CoroFW::DeleteUpdate()
+	{
 		for (auto& coro : m_DeleteVec)
-		{			
+		{
 			RemoveCoroutine(*coro);
 		}
-		
+
 		m_DeleteVec.clear();
 	}
+#pragma endregion
 
-	void CoroFW::AddCoroutine(Handle &coro)
+
+
+#pragma region NormalUpdateFuncs
+	void CoroFW::AddCoroutine(Handle& coro)
 	{
-		coro.SetParent(this);
-		m_CoroVec.push_back(coro);
+		AddSingleCoroutine(m_CoroVec, coro);
 	}
 
-	void CoroFW::RemoveCoroutine(Handle &coro)
+	void CoroFW::RemoveCoroutine(Handle& coro)
 	{
-		coro.Destroy();
-		m_CoroVec.erase(std::remove(m_CoroVec.begin(), m_CoroVec.end(), coro), m_CoroVec.end());
+		RemoveSingleCoroutine(m_CoroVec, coro);
 	}
 
 	void CoroFW::RemoveAll()
 	{
-		for (auto& coro : m_CoroVec)
-			coro.Destroy();
-		m_CoroVec.clear();
+		RemoveCoroutineVector(m_CoroVec);
+	}
+#pragma endregion
+
+
+
+#pragma region FixedUpdateFuncs
+	void CoroFW::AddFixedCoroutine(Handle& coro)
+	{
+		AddSingleCoroutine(m_FixedCoroVec, coro);
+	}
+
+	void CoroFW::RemoveFixedCoroutine(Handle& coro)
+	{
+		RemoveSingleCoroutine(m_FixedCoroVec, coro);
+	}
+
+	void CoroFW::RemoveAllFixed()
+	{
+		RemoveCoroutineVector(m_FixedCoroVec);
+	}
+#pragma endregion
+
+
+
+#pragma region EndOfFrameUpdateFuncs
+	void CoroFW::AddEndCoroutine(Handle& coro)
+	{
+		AddSingleCoroutine(m_EndCoroVec, coro);
+	}
+
+	void CoroFW::RemoveEndCoroutine(Handle& coro)
+	{
+		RemoveSingleCoroutine(m_EndCoroVec, coro);
+	}
+
+	void CoroFW::RemoveAllEnd()
+	{
+		RemoveCoroutineVector(m_EndCoroVec);
+	}
+#pragma endregion
+
+
+
+	void CoroFW::RemoveEverything()
+	{
+		RemoveAll();
+		RemoveAllFixed();
+		RemoveAllEnd();
 	}
 
 	bool CoroFW::AreCoroutinesRunning()
 	{
 		return !m_CoroVec.empty();
 	}
+
+
+
+#pragma region Helpers
+	inline void CoroFW::AddSingleCoroutine(std::vector<Handle>& vec, Handle& coro)
+	{
+		vec.push_back(coro);
+	}
+
+	inline void CoroFW::RemoveSingleCoroutine(std::vector<Handle>& vec, Handle& coro)
+	{
+#ifdef _DEBUG
+		if (std::find(vec.begin(), vec.end(), coro) == m_CoroVec.end())
+			throw std::exception("RemoveCoroutine > Coroutine to remove not found.");
+#endif
+		coro.Destroy();
+		vec.erase(std::remove(vec.begin(), vec.end(), coro), vec.end());
+	}
+
+	inline void CoroFW::RemoveCoroutineVector(std::vector<Handle>& vec)
+	{
+		for (auto& coro : vec)
+			coro.Destroy();
+		vec.clear();
+	}
+#pragma endregion
 }
