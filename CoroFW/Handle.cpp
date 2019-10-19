@@ -55,7 +55,7 @@ namespace CFW
 	{
 		if (m_pPromise->m_HasChild && !m_pPromise->m_Child->GetHandle().done())
 			m_pPromise->m_Child->GetHandle().resume();
-		else if (!m_CoroHandle.done())
+		if ((!m_CoroHandle.done() && !m_pPromise->m_HasChild) || (m_pPromise->m_HasChild && m_pPromise->m_Child->GetHandle().done()))
 			m_CoroHandle.resume();
 		return !m_CoroHandle.done();
 	}

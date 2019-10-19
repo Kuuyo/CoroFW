@@ -105,7 +105,45 @@ TEST_CASE("Chaining Coroutines Check")
 
 	delete pFW;
 
-	REQUIRE(loopCount == 4);
+	REQUIRE(loopCount == 3);
+}
+
+int m_Loops{ 0 };
+
+bool HasNotLoopedThreeTimes()
+{
+	return !(m_Loops == 3);
+}
+
+CFW::Handle WaitWhile(const std::function<bool()>& func)
+{
+	while (func())
+	{
+		CFW_YieldNull();
+	}
+}
+
+CFW::Handle WaitWhileTest()
+{
+	co_await WaitWhile(HasNotLoopedThreeTimes);
+}
+
+TEST_CASE("WaitWhile Test")
+{
+	CFW::CoroFW* pFW = new CFW::CoroFW();
+
+	CFW::Handle res = WaitWhileTest();
+	pFW->AddCoroutine(res);
+
+	while (pFW->AreCoroutinesRunning())
+	{
+		pFW->Update();
+		++m_Loops;
+	}
+
+	delete pFW;
+
+	REQUIRE(m_Loops == 4);
 }
 
 TEST_CASE("Manual Remove Single Coroutine test")
