@@ -29,12 +29,13 @@ namespace CFW
 		m_DeleteVec.clear();
 	}
 
-	void CoroFW::AddCoroutine(const Handle&coro)
+	void CoroFW::AddCoroutine(Handle &coro)
 	{
+		coro.SetParent(this);
 		m_CoroVec.push_back(coro);
 	}
 
-	void CoroFW::RemoveCoroutine(Handle&coro)
+	void CoroFW::RemoveCoroutine(Handle &coro)
 	{
 		coro.Destroy();
 		m_CoroVec.erase(std::remove(m_CoroVec.begin(), m_CoroVec.end(), coro), m_CoroVec.end());

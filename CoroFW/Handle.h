@@ -5,6 +5,7 @@
 namespace CFW
 {
 	struct Awaiter;
+	class CoroFW;
 
 	class Handle
 	{
@@ -36,10 +37,13 @@ namespace CFW
 
 		bool Resume() const;
 
+		void SetParent(CoroFW* pCFW);
+
 		std::experimental::coroutine_handle<promise_type> GetHandle() const { return m_CoroHandle; }
 
 	private:
 		Handle::promise_type* m_pPromise{ nullptr };
+		CoroFW* m_pParent{ nullptr };
 		std::experimental::coroutine_handle<promise_type> m_CoroHandle;
 	};
 
@@ -55,5 +59,4 @@ namespace CFW
 
 		void await_resume() noexcept;
 	};
-
 }

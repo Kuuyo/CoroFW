@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Handle.h"
 
-#include <iostream>
+#include "CoroFW.h"
 
 namespace CFW
 {
@@ -59,6 +59,12 @@ namespace CFW
 			m_CoroHandle.resume();
 		return !m_CoroHandle.done();
 	}
+
+	void Handle::SetParent(CoroFW* pCFW)
+	{
+		m_pParent = pCFW;
+	}
+
 
 	Awaiter::Awaiter(const std::experimental::coroutine_handle<Handle::promise_type>& handle)
 		: m_AwaiterCoroHandle(handle)

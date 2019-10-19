@@ -12,8 +12,8 @@ namespace CFW
 
 		void Update();
 
-		void AddCoroutine(const Handle&coro);
-		void RemoveCoroutine(Handle& coro);
+		void AddCoroutine(Handle &coro);
+		void RemoveCoroutine(Handle &coro);
 		void RemoveAll();
 
 		bool AreCoroutinesRunning();

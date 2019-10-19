@@ -1,6 +1,4 @@
 #include "vld.h"
-#include "CFW.h"
-#include <future>
 
 #pragma warning( push,0 )
 #pragma warning( disable : 26495 )
@@ -11,6 +9,8 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 #pragma warning( pop )
+
+#include "CFW.h"
 
 
 TEST_CASE("Are Coroutines Running Check")
@@ -52,41 +52,6 @@ TEST_CASE("YieldNull Check")
 	REQUIRE(loopCount == 1);
 }
 
-CFW::Handle Wait(int time)
-{
-	int timer{ 0 };
-
-	while (time > timer)
-	{
-		++timer;
-		CFW_YieldNull();
-	}
-}
-
-CFW::Handle YieldWaitTest()
-{
-	co_await Wait(3);
-}
-
-TEST_CASE("YieldWaitTest Check")
-{
-	int loopCount{ 0 };
-	CFW::CoroFW* pFW = new CFW::CoroFW();
-
-	CFW::Handle res = YieldWaitTest();
-	pFW->AddCoroutine(res);
-
-	while (pFW->AreCoroutinesRunning())
-	{
-		pFW->Update();
-		++loopCount;
-	}
-
-	delete pFW;
-
-	REQUIRE(loopCount == 4);
-}
-
 CFW::Handle MultiYieldTest()
 {
 	int count{ 0 };
@@ -117,6 +82,30 @@ TEST_CASE("Multiple Yield Test")
 	delete pFW;
 
 	REQUIRE(loopCount == 3);
+}
+
+CFW::Handle ChainTest()
+{
+	co_await MultiYieldTest();
+}
+
+TEST_CASE("Chaining Coroutines Check")
+{
+	int loopCount{ 0 };
+	CFW::CoroFW* pFW = new CFW::CoroFW();
+
+	CFW::Handle res = ChainTest();
+	pFW->AddCoroutine(res);
+
+	while (pFW->AreCoroutinesRunning())
+	{
+		pFW->Update();
+		++loopCount;
+	}
+
+	delete pFW;
+
+	REQUIRE(loopCount == 4);
 }
 
 TEST_CASE("Manual Remove Single Coroutine test")
