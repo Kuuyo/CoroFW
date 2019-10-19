@@ -1,6 +1,5 @@
 #pragma once
 #include <experimental/coroutine>
-#include <optional>
 
 namespace CFW
 {
@@ -22,7 +21,7 @@ namespace CFW
 			std::experimental::suspend_always await_transform(std::experimental::suspend_always);
 
 			bool m_HasChild{ false };
-			const Handle* m_Child;
+			const Handle* m_Child{ nullptr };
 		};
 
 		Handle(Handle::promise_type* p);

@@ -86,7 +86,7 @@ TEST_CASE("Multiple Yield Test")
 
 CFW::Handle ChainTest()
 {
-	co_await MultiYieldTest();
+	CFW_Yield(MultiYieldTest());
 }
 
 TEST_CASE("Chaining Coroutines Check")
@@ -115,17 +115,9 @@ bool HasNotLoopedThreeTimes()
 	return !(m_Loops == 3);
 }
 
-CFW::Handle WaitWhile(const std::function<bool()>& func)
-{
-	while (func())
-	{
-		CFW_YieldNull();
-	}
-}
-
 CFW::Handle WaitWhileTest()
 {
-	co_await WaitWhile(HasNotLoopedThreeTimes);
+	CFW_WaitWhile(HasNotLoopedThreeTimes);
 }
 
 TEST_CASE("WaitWhile Test")
@@ -133,6 +125,35 @@ TEST_CASE("WaitWhile Test")
 	CFW::CoroFW* pFW = new CFW::CoroFW();
 
 	CFW::Handle res = WaitWhileTest();
+	pFW->AddCoroutine(res);
+
+	while (pFW->AreCoroutinesRunning())
+	{
+		pFW->Update();
+		++m_Loops;
+	}
+
+	delete pFW;
+
+	REQUIRE(m_Loops == 4);
+}
+
+bool HasLoopedThreeTimes()
+{
+	return (m_Loops == 3);
+}
+
+CFW::Handle WaitUntilTest()
+{
+	CFW_WaitUntil(HasLoopedThreeTimes);
+}
+
+TEST_CASE("WaitUntil Test")
+{
+	m_Loops = 0;
+	CFW::CoroFW* pFW = new CFW::CoroFW();
+
+	CFW::Handle res = WaitUntilTest();
 	pFW->AddCoroutine(res);
 
 	while (pFW->AreCoroutinesRunning())
