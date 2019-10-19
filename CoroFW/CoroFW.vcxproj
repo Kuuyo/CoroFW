@@ -174,7 +174,7 @@
     <ClInclude Include="CFW.h" />
     <ClInclude Include="CoroFW.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Result.h" />
+    <ClInclude Include="Handle.h" />
     <ClInclude Include="Yield.h" />
   </ItemGroup>
   <ItemGroup>
@@ -185,7 +185,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Result.cpp" />
+    <ClCompile Include="Handle.cpp" />
     <ClCompile Include="Yield.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

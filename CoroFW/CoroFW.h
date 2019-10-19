@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "Result.h"
+#include "Handle.h"
 
 namespace CFW
 {
@@ -12,8 +12,8 @@ namespace CFW
 
 		void Update();
 
-		void AddCoroutine(const Result &coro);
-		void RemoveCoroutine(Result& coro);
+		void AddCoroutine(const Handle&coro);
+		void RemoveCoroutine(Handle& coro);
 		void RemoveAll();
 
 		bool AreCoroutinesRunning();
@@ -24,7 +24,7 @@ namespace CFW
 		CoroFW& operator=(CoroFW&& other) noexcept = delete;
 
 	private:
-		std::vector<Result> m_CoroVec;
-		std::vector<Result*> m_DeleteVec;
+		std::vector<Handle> m_CoroVec;
+		std::vector<Handle*> m_DeleteVec;
 	};
 }

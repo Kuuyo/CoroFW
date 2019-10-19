@@ -27,7 +27,7 @@
     <ClInclude Include="Yield.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
+    <ClInclude Include="Handle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClCompile Include="Yield.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Result.cpp">
+    <ClCompile Include="Handle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,18 +15,6 @@ namespace CFW
 
 	void CoroFW::Update()
 	{
-		//m_CoroVec.erase(std::remove_if(m_CoroVec.begin(), m_CoroVec.end(), [](Result& c)
-		//	{ 
-		//		bool isMarkedForDelete = !c.Resume();
-		//
-		//		if (isMarkedForDelete)
-		//		{
-		//			c.Destroy();
-		//		}
-		//
-		//		return isMarkedForDelete;
-		//	}), m_CoroVec.end());
-
 		for (auto &coro : m_CoroVec)
 		{
 			if (!coro.Resume())
@@ -41,13 +29,12 @@ namespace CFW
 		m_DeleteVec.clear();
 	}
 
-	void CoroFW::AddCoroutine(const Result &coro)
+	void CoroFW::AddCoroutine(const Handle&coro)
 	{
-		coro.Resume();
 		m_CoroVec.push_back(coro);
 	}
 
-	void CoroFW::RemoveCoroutine(Result &coro)
+	void CoroFW::RemoveCoroutine(Handle&coro)
 	{
 		coro.Destroy();
 		m_CoroVec.erase(std::remove(m_CoroVec.begin(), m_CoroVec.end(), coro), m_CoroVec.end());
@@ -55,6 +42,8 @@ namespace CFW
 
 	void CoroFW::RemoveAll()
 	{
+		for (auto& coro : m_CoroVec)
+			coro.Destroy();
 		m_CoroVec.clear();
 	}
 
