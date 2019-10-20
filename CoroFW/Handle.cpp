@@ -44,6 +44,7 @@ namespace CFW
 
 	Handle::~Handle()
 	{
+
 	}
 
 	void Handle::Destroy()

@@ -15,16 +15,16 @@ namespace CFW
 		void EndOfFrameUpdate();
 		void DeleteUpdate();
 
-		void AddCoroutine(Handle &coro);
+		void AddCoroutine(const Handle &coro);
 		void RemoveCoroutine(Handle &coro);
 		void RemoveAll();
 
-		void AddFixedCoroutine(Handle& coro);
-		void RemoveFixedCoroutine(Handle& coro);
+		void AddFixedCoroutine(const Handle &coro);
+		void RemoveFixedCoroutine(Handle &coro);
 		void RemoveAllFixed();
 
-		void AddEndCoroutine(Handle& coro);
-		void RemoveEndCoroutine(Handle& coro);
+		void AddEndCoroutine(const Handle &coro);
+		void RemoveEndCoroutine(Handle &coro);
 		void RemoveAllEnd();
 
 		void RemoveEverything();
@@ -42,7 +42,7 @@ namespace CFW
 		std::vector<Handle> m_EndCoroVec;
 		std::vector<Handle*> m_DeleteVec;
 
-		inline void AddSingleCoroutine(std::vector<Handle>& vec, Handle& coro);
+		inline void AddSingleCoroutine(std::vector<Handle>& vec, const Handle &coro);
 		inline void RemoveSingleCoroutine(std::vector<Handle>& vec, Handle& coro);
 		inline void RemoveCoroutineVector(std::vector<Handle>& vec);
 	};

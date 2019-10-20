@@ -67,12 +67,12 @@ namespace CFW
 
 
 #pragma region NormalUpdateFuncs
-	void CoroFW::AddCoroutine(Handle& coro)
+	void CoroFW::AddCoroutine(const Handle &coro)
 	{
 		AddSingleCoroutine(m_CoroVec, coro);
 	}
 
-	void CoroFW::RemoveCoroutine(Handle& coro)
+	void CoroFW::RemoveCoroutine(Handle &coro)
 	{
 		RemoveSingleCoroutine(m_CoroVec, coro);
 	}
@@ -86,12 +86,12 @@ namespace CFW
 
 
 #pragma region FixedUpdateFuncs
-	void CoroFW::AddFixedCoroutine(Handle& coro)
+	void CoroFW::AddFixedCoroutine(const Handle &coro)
 	{
 		AddSingleCoroutine(m_FixedCoroVec, coro);
 	}
 
-	void CoroFW::RemoveFixedCoroutine(Handle& coro)
+	void CoroFW::RemoveFixedCoroutine(Handle &coro)
 	{
 		RemoveSingleCoroutine(m_FixedCoroVec, coro);
 	}
@@ -105,12 +105,12 @@ namespace CFW
 
 
 #pragma region EndOfFrameUpdateFuncs
-	void CoroFW::AddEndCoroutine(Handle& coro)
+	void CoroFW::AddEndCoroutine(const Handle &coro)
 	{
 		AddSingleCoroutine(m_EndCoroVec, coro);
 	}
 
-	void CoroFW::RemoveEndCoroutine(Handle& coro)
+	void CoroFW::RemoveEndCoroutine(Handle &coro)
 	{
 		RemoveSingleCoroutine(m_EndCoroVec, coro);
 	}
@@ -138,7 +138,7 @@ namespace CFW
 
 
 #pragma region Helpers
-	inline void CoroFW::AddSingleCoroutine(std::vector<Handle>& vec, Handle& coro)
+	inline void CoroFW::AddSingleCoroutine(std::vector<Handle>& vec, const Handle &coro)
 	{
 		vec.push_back(coro);
 	}

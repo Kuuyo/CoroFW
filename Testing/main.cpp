@@ -38,8 +38,7 @@ TEST_CASE("YieldNull Check")
 	int loopCount{ 0 };
 	CFW::CoroFW* pFW = new CFW::CoroFW();
 
-	CFW::Handle res = YieldTest();
-	pFW->AddCoroutine(res);
+	pFW->AddCoroutine(YieldTest());
 
 	while (pFW->AreCoroutinesRunning())
 	{
@@ -70,8 +69,7 @@ TEST_CASE("Multiple Yield Test")
 	int loopCount{ 0 };
 	CFW::CoroFW* pFW = new CFW::CoroFW();
 
-	CFW::Handle res = MultiYieldTest();
-	pFW->AddCoroutine(res);
+	pFW->AddCoroutine(MultiYieldTest());
 
 	while (pFW->AreCoroutinesRunning())
 	{
@@ -94,8 +92,7 @@ TEST_CASE("Chaining Coroutines Check")
 	int loopCount{ 0 };
 	CFW::CoroFW* pFW = new CFW::CoroFW();
 
-	CFW::Handle res = ChainTest();
-	pFW->AddCoroutine(res);
+	pFW->AddCoroutine(ChainTest());
 
 	while (pFW->AreCoroutinesRunning())
 	{
@@ -124,8 +121,7 @@ TEST_CASE("WaitWhile Test")
 {
 	CFW::CoroFW* pFW = new CFW::CoroFW();
 
-	CFW::Handle res = WaitWhileTest();
-	pFW->AddCoroutine(res);
+	pFW->AddCoroutine(WaitWhileTest());
 
 	while (pFW->AreCoroutinesRunning())
 	{
@@ -153,8 +149,7 @@ TEST_CASE("WaitUntil Test")
 	m_Loops = 0;
 	CFW::CoroFW* pFW = new CFW::CoroFW();
 
-	CFW::Handle res = WaitUntilTest();
-	pFW->AddCoroutine(res);
+	pFW->AddCoroutine(WaitUntilTest());
 
 	while (pFW->AreCoroutinesRunning())
 	{
@@ -201,7 +196,7 @@ TEST_CASE("Manual Remove Multiple Coroutines test")
 	CFW::Handle res2 = MultiYieldTest();
 	pFW->AddCoroutine(res2);
 
-	CFW::Handle res3 = MultiYieldTest();
+	CFW::Handle res3 = WaitUntilTest();
 	pFW->AddCoroutine(res3);
 
 	while (pFW->AreCoroutinesRunning())
@@ -230,14 +225,11 @@ TEST_CASE("RemoveAll test")
 	int loopCount{ 0 };
 	CFW::CoroFW* pFW = new CFW::CoroFW();
 
-	CFW::Handle res = YieldTest();
-	pFW->AddCoroutine(res);
+	pFW->AddCoroutine(YieldTest());
 
-	CFW::Handle res2 = MultiYieldTest();
-	pFW->AddCoroutine(res2);
+	pFW->AddCoroutine(MultiYieldTest());
 
-	CFW::Handle res3 = MultiYieldTest();
-	pFW->AddCoroutine(res3);
+	pFW->AddCoroutine(WaitUntilTest());
 
 	while (pFW->AreCoroutinesRunning())
 	{
@@ -256,20 +248,51 @@ TEST_CASE("RemoveEverything test")
 	int loopCount{ 0 };
 	CFW::CoroFW* pFW = new CFW::CoroFW();
 
-	CFW::Handle res = YieldTest();
-	pFW->AddCoroutine(res);
+	pFW->AddCoroutine(YieldTest());
 
-	CFW::Handle res2 = MultiYieldTest();
-	pFW->AddFixedCoroutine(res2);
+	pFW->AddFixedCoroutine(MultiYieldTest());
 
-	CFW::Handle res3 = WaitUntilTest();
-	pFW->AddEndCoroutine(res3);
+	pFW->AddEndCoroutine(WaitUntilTest());
 
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
 		++loopCount;
+		pFW->FixedUpdate();
 		pFW->RemoveEverything();
+		pFW->EndOfFrameUpdate();
+	}
+
+	delete pFW;
+
+	REQUIRE(loopCount == 1);
+}
+
+TEST_CASE("Adding and removing test")
+{
+	int loopCount{ 0 };
+	CFW::CoroFW* pFW = new CFW::CoroFW();
+
+	pFW->AddCoroutine(YieldTest());
+
+	pFW->AddFixedCoroutine(MultiYieldTest());
+
+	pFW->AddEndCoroutine(WaitUntilTest());
+
+	for (size_t i = 0; i < 5; ++i)
+	{
+		CFW::Handle handle = WaitUntilTest();
+		pFW->AddCoroutine(handle);
+		pFW->RemoveCoroutine(handle);
+	}
+
+	while (pFW->AreCoroutinesRunning())
+	{
+		pFW->Update();
+		++loopCount;
+		pFW->FixedUpdate();
+		pFW->RemoveEverything();
+		pFW->EndOfFrameUpdate();
 	}
 
 	delete pFW;
