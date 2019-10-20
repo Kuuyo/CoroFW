@@ -29,7 +29,7 @@ namespace CFW
 	{
 		m_HasChild = true;
 		m_Child = &res;
-		return Awaiter(res.m_CoroHandle);
+		return Awaiter(res.m_CoroHandle, this);
 	}
 	
 	std::experimental::suspend_always Handle::promise_type::await_transform(std::experimental::suspend_always)
@@ -48,6 +48,11 @@ namespace CFW
 
 	void Handle::Destroy()
 	{
+		if (m_pPromise->m_HasChild)
+		{
+			m_pPromise->m_Child->GetHandle().destroy();
+		}
+
 		m_CoroHandle.destroy();	
 	}
 
@@ -60,14 +65,9 @@ namespace CFW
 		return !m_CoroHandle.done();
 	}
 
-	void Handle::SetParent(CoroFW* pCFW)
-	{
-		m_pParent = pCFW;
-	}
-
-
-	Awaiter::Awaiter(const std::experimental::coroutine_handle<Handle::promise_type>& handle)
+	Awaiter::Awaiter(const std::experimental::coroutine_handle<Handle::promise_type>& handle, Handle::promise_type* pPromise)
 		: m_AwaiterCoroHandle(handle)
+		, m_pPromise(pPromise)
 	{
 	}
 
@@ -83,6 +83,7 @@ namespace CFW
 
 	void Awaiter::await_resume() noexcept
 	{
+		m_pPromise->m_HasChild = false;
 		m_AwaiterCoroHandle.destroy();
 	}
 }

@@ -250,3 +250,29 @@ TEST_CASE("RemoveAll test")
 
 	REQUIRE(loopCount == 1);
 }
+
+TEST_CASE("RemoveEverything test")
+{
+	int loopCount{ 0 };
+	CFW::CoroFW* pFW = new CFW::CoroFW();
+
+	CFW::Handle res = YieldTest();
+	pFW->AddCoroutine(res);
+
+	CFW::Handle res2 = MultiYieldTest();
+	pFW->AddFixedCoroutine(res2);
+
+	CFW::Handle res3 = WaitUntilTest();
+	pFW->AddEndCoroutine(res3);
+
+	while (pFW->AreCoroutinesRunning())
+	{
+		pFW->Update();
+		++loopCount;
+		pFW->RemoveEverything();
+	}
+
+	delete pFW;
+
+	REQUIRE(loopCount == 1);
+}

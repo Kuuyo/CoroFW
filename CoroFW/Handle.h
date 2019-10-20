@@ -36,21 +36,19 @@ namespace CFW
 
 		bool Resume() const;
 
-		void SetParent(CoroFW* pCFW);
-
 		std::experimental::coroutine_handle<promise_type> GetHandle() const { return m_CoroHandle; }
 
 	private:
 		Handle::promise_type* m_pPromise{ nullptr };
-		CoroFW* m_pParent{ nullptr };
 		std::experimental::coroutine_handle<promise_type> m_CoroHandle;
 	};
 
 	struct Awaiter
 	{
 		std::experimental::coroutine_handle<Handle::promise_type> m_AwaiterCoroHandle;
+		Handle::promise_type* m_pPromise{ nullptr };
 
-		Awaiter(const std::experimental::coroutine_handle<Handle::promise_type> &handle);
+		Awaiter(const std::experimental::coroutine_handle<Handle::promise_type> &handle, Handle::promise_type* pPromise);
 
 		bool await_ready() noexcept;
 
