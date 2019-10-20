@@ -140,6 +140,10 @@ namespace CFW
 #pragma region Helpers
 	inline void CoroFW::AddSingleCoroutine(std::vector<Handle>& vec, const Handle &coro)
 	{
+#ifdef _DEBUG
+		if (!coro.IsValid())
+			throw std::exception("CoroFW::AddSingleCoroutine > Attempting to add Destroyed coroutine.");
+#endif
 		vec.push_back(coro);
 	}
 

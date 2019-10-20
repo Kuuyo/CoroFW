@@ -54,7 +54,9 @@ namespace CFW
 			m_pPromise->m_Child->GetHandle().destroy();
 		}
 
-		m_CoroHandle.destroy();	
+		m_CoroHandle.destroy();
+
+		m_IsValid = false;
 	}
 
 	bool Handle::Resume() const

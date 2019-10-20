@@ -299,3 +299,12 @@ TEST_CASE("Adding and removing test")
 
 	REQUIRE(loopCount == 1);
 }
+
+TEST_CASE("Throw on attempting to add destroyed coroutine test")
+{
+	CFW::CoroFW pFW = CFW::CoroFW();
+
+	CFW::Handle res = MultiYieldTest();
+	res.Destroy();
+	REQUIRE_THROWS(pFW.AddCoroutine(res));
+}

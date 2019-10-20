@@ -36,11 +36,14 @@ namespace CFW
 
 		bool Resume() const;
 
+		bool IsValid() const { return m_IsValid; }
+
 		std::experimental::coroutine_handle<promise_type> GetHandle() const { return m_CoroHandle; }
 
 	private:
 		Handle::promise_type* m_pPromise{ nullptr };
 		std::experimental::coroutine_handle<promise_type> m_CoroHandle;
+		bool m_IsValid{ true };
 	};
 
 	struct Awaiter
