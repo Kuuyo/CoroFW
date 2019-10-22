@@ -1,5 +1,6 @@
 #include "vld.h"
 #include "CFW.h"
+#include <iostream>
 
 CFW::Handle YieldTest()
 {

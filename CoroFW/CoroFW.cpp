@@ -16,42 +16,17 @@ namespace CFW
 #pragma region Updates
 	void CoroFW::Update()
 	{
-		for (auto &coro : m_CoroVec)
-		{
-			if (!coro.Resume())
-				m_DeleteVec.push_back(coro); 
-			// TODO: Think about destroying here already
-		}
-
-#ifndef NO_DELETE_UPDATE
-		DeleteUpdate();
-#endif		
+		UpdateLoop(m_CoroVec);
 	}
 
 	void CoroFW::FixedUpdate()
 	{
-		for (auto& coro : m_FixedCoroVec)
-		{
-			if (!coro.Resume())
-				m_DeleteVec.push_back(coro);
-		}
-
-#ifndef NO_DELETE_UPDATE
-		DeleteUpdate();
-#endif	
+		UpdateLoop(m_FixedCoroVec);
 	}
 
 	void CoroFW::EndOfFrameUpdate()
 	{
-		for (auto& coro : m_EndCoroVec)
-		{
-			if (!coro.Resume())
-				m_DeleteVec.push_back(coro);
-		}
-
-#ifndef NO_DELETE_UPDATE
-		DeleteUpdate();
-#endif	
+		UpdateLoop(m_EndCoroVec);
 	}
 
 	void CoroFW::DeleteUpdate()
@@ -75,7 +50,12 @@ namespace CFW
 		AddSingleCoroutine(m_CoroVec, coro);
 	}
 
-	void CoroFW::RemoveCoroutine(Handle &coro)
+	void CoroFW::RemoveCoroutine(Handle& coro)
+	{
+		RemoveSingleCoroutine(m_CoroVec, coro);
+	}
+
+	void CoroFW::RemoveCoroutine(int coro)
 	{
 		RemoveSingleCoroutine(m_CoroVec, coro);
 	}
@@ -94,7 +74,12 @@ namespace CFW
 		AddSingleCoroutine(m_FixedCoroVec, coro);
 	}
 
-	void CoroFW::RemoveFixedCoroutine(Handle &coro)
+	void CoroFW::RemoveFixedCoroutine(Handle& coro)
+	{
+		RemoveSingleCoroutine(m_FixedCoroVec, coro);
+	}
+
+	void CoroFW::RemoveFixedCoroutine(int coro)
 	{
 		RemoveSingleCoroutine(m_FixedCoroVec, coro);
 	}
@@ -113,7 +98,12 @@ namespace CFW
 		AddSingleCoroutine(m_EndCoroVec, coro);
 	}
 
-	void CoroFW::RemoveEndCoroutine(Handle &coro)
+	void CoroFW::RemoveEndCoroutine(Handle& coro)
+	{
+		RemoveSingleCoroutine(m_EndCoroVec, coro);
+	}
+
+	void CoroFW::RemoveEndCoroutine(int coro)
 	{
 		RemoveSingleCoroutine(m_EndCoroVec, coro);
 	}
@@ -141,6 +131,19 @@ namespace CFW
 
 
 #pragma region Helpers
+	inline void CoroFW::UpdateLoop(std::vector<Handle>& vec)
+	{
+		for (size_t i = 0; i < vec.size(); ++i)
+		{
+			if (!vec[i].Resume())
+				m_DeleteVec.push_back(i);
+		}
+
+#ifndef NO_DELETE_UPDATE
+		DeleteUpdate();
+#endif	
+	}
+
 	inline void CoroFW::AddSingleCoroutine(std::vector<Handle>& vec, const Handle &coro)
 	{
 #ifdef _DEBUG
@@ -148,6 +151,13 @@ namespace CFW
 			throw std::exception("CoroFW::AddSingleCoroutine > Attempting to add Destroyed coroutine.");
 #endif
 		vec.push_back(coro);
+	}
+
+	inline void CoroFW::RemoveSingleCoroutine(std::vector<Handle>& vec, int coro)
+	{
+		vec[coro].Destroy();
+		vec[coro] = vec.back();
+		vec.pop_back();
 	}
 
 	inline void CoroFW::RemoveSingleCoroutine(std::vector<Handle>& vec, Handle& coro)
