@@ -343,3 +343,5 @@ healthchecksdb
 _Build/
 _Temp/
 Lib/
+*.sleepy
+*.cd

@@ -73,25 +73,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)_Build\$(Configuration)_$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)_Temp\DigDug\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>$(ProjectDir)_Temp\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>G:\DAE\OneDrive - Hogeschool West-Vlaanderen\2019-2020\Grad\Project\CoroFW\CoroFW;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)_Build\$(Configuration)_$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)_Temp\DigDug\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>$(ProjectDir)_Temp\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>G:\DAE\OneDrive - Hogeschool West-Vlaanderen\2019-2020\Grad\Project\CoroFW\CoroFW;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)_Build\$(Configuration)_$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)_Temp\DigDug\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>$(ProjectDir)_Temp\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>G:\DAE\OneDrive - Hogeschool West-Vlaanderen\2019-2020\Grad\Project\CoroFW\CoroFW;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)_Build\$(Configuration)_$(Platform)\</OutDir>
-    <IntDir>$(ProjectDir)_Temp\DigDug\$(Platform)\$(Configuration)\</IntDir>
+    <IntDir>$(ProjectDir)_Temp\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>G:\DAE\OneDrive - Hogeschool West-Vlaanderen\2019-2020\Grad\Project\CoroFW\CoroFW;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

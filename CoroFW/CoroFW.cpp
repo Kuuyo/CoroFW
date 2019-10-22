@@ -19,7 +19,8 @@ namespace CFW
 		for (auto &coro : m_CoroVec)
 		{
 			if (!coro.Resume())
-				m_DeleteVec.push_back(&coro);
+				m_DeleteVec.push_back(coro); 
+			// TODO: Think about destroying here already
 		}
 
 #ifndef NO_DELETE_UPDATE
@@ -32,7 +33,7 @@ namespace CFW
 		for (auto& coro : m_FixedCoroVec)
 		{
 			if (!coro.Resume())
-				m_DeleteVec.push_back(&coro);
+				m_DeleteVec.push_back(coro);
 		}
 
 #ifndef NO_DELETE_UPDATE
@@ -45,7 +46,7 @@ namespace CFW
 		for (auto& coro : m_EndCoroVec)
 		{
 			if (!coro.Resume())
-				m_DeleteVec.push_back(&coro);
+				m_DeleteVec.push_back(coro);
 		}
 
 #ifndef NO_DELETE_UPDATE
@@ -55,9 +56,11 @@ namespace CFW
 
 	void CoroFW::DeleteUpdate()
 	{
+		std::reverse(m_DeleteVec.begin(), m_DeleteVec.end());
+
 		for (auto& coro : m_DeleteVec)
 		{
-			RemoveCoroutine(*coro);
+			RemoveCoroutine(coro);
 		}
 
 		m_DeleteVec.clear();
