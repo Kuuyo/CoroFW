@@ -32,15 +32,16 @@ namespace CFW
 		return Awaiter(res.m_CoroHandle, this);
 	}
 	
-	std::experimental::suspend_always Handle::promise_type::await_transform(std::experimental::suspend_always)
+	std::experimental::suspend_always Handle::promise_type::await_transform(const std::experimental::suspend_always& susAlways)
 	{
-		return std::experimental::suspend_always();
+		return susAlways;
 	}
 
 	Handle::Handle(Handle::promise_type* p)
 		: m_CoroHandle(std::experimental::coroutine_handle<promise_type>::from_promise(*p))
 		, m_pPromise(p)
-	{}
+	{
+	}
 
 	Handle::~Handle()
 	{

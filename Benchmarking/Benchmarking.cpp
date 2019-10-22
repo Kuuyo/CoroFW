@@ -17,20 +17,24 @@ int main()
 {
 	CFW::CoroFW* pCFW = new CFW::CoroFW();
 
-	// 26906977
-	for (size_t i = 0; i < 1000000; ++i)
-	{
-		CFW::Handle han = YieldTest();
-		pCFW->AddCoroutine(han);
+	CFW::Handle han = YieldTest();
+	pCFW->AddCoroutine(han);
+	pCFW->Update();
 
-		// han = DoubleYieldTest();
-		// pCFW->AddCoroutine(han);
-	}
-
-	while (pCFW->AreCoroutinesRunning())
-	{
-		pCFW->Update();
-	}
+	//// 26906977
+	//for (size_t i = 0; i < 1000000; ++i)
+	//{
+	//	CFW::Handle han = YieldTest();
+	//	pCFW->AddCoroutine(han);
+	//
+	//	// han = DoubleYieldTest();
+	//	// pCFW->AddCoroutine(han);
+	//}
+	//
+	//while (pCFW->AreCoroutinesRunning())
+	//{
+	//	pCFW->Update();
+	//}
 
 	delete pCFW;
 	return 0;

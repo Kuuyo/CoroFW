@@ -18,7 +18,7 @@ namespace CFW
 			std::experimental::suspend_always final_suspend();
 
 			Awaiter await_transform(const Handle&res);
-			std::experimental::suspend_always await_transform(std::experimental::suspend_always);
+			std::experimental::suspend_always await_transform(const std::experimental::suspend_always &susAlways);
 
 			bool m_HasChild{ false };
 			const Handle* m_Child{ nullptr };

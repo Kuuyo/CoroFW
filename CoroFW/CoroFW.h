@@ -4,7 +4,7 @@
 
 namespace CFW
 {
-	class CoroFW
+	class CoroFW final
 	{
 	public:
 		CoroFW();
