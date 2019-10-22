@@ -11,6 +11,7 @@ namespace CFW
 
 	CoroFW::~CoroFW()
 	{
+		RemoveEverything();
 	}
 
 #pragma region Updates
