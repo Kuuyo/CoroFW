@@ -19,3 +19,5 @@ namespace CFW
 #define CFW_WaitWhile(func) co_await CFW::Yields::WaitWhile(func)
 
 #define CFW_WaitUntil(func) co_await CFW::Yields::WaitUntil(func)
+
+#define CFW_YieldValue(value) co_yield value

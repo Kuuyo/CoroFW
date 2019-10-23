@@ -10,11 +10,6 @@ namespace CFW
 		return Handle(this);
 	}
 
-	std::experimental::suspend_always Handle::promise_type::yield_value(int)
-	{
-		return std::experimental::suspend_always();
-	}
-
 	std::experimental::suspend_never Handle::promise_type::initial_suspend()
 	{
 		return std::experimental::suspend_never();

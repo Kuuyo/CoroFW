@@ -308,3 +308,58 @@ TEST_CASE("Throw on attempting to add destroyed coroutine test")
 	res.Destroy();
 	REQUIRE_THROWS(pFW.AddCoroutine(res));
 }
+
+CFW::Handle YieldValueTest()
+{
+	CFW_YieldValue(3);
+}
+
+TEST_CASE("YieldValue Check")
+{
+	int loopCount{ 0 };
+	CFW::CoroFW* pFW = new CFW::CoroFW();
+
+	CFW::Handle han = YieldValueTest();
+	pFW->AddCoroutine(han);
+
+	int value = han.GetValue<int>();
+
+	while (pFW->AreCoroutinesRunning())
+	{
+		pFW->Update();
+		++loopCount;
+	}
+
+	delete pFW;
+
+	REQUIRE(value == 3);
+	REQUIRE(loopCount == 1);
+}
+
+CFW::Handle MultiYieldValueTest()
+{
+	for (int i = 0; i < 3; ++i)
+	{
+		CFW_YieldValue(3 * i);
+	}
+}
+
+TEST_CASE("Multi YieldValue Check")
+{
+	int loopCount{ 0 };
+	CFW::CoroFW* pFW = new CFW::CoroFW();
+
+	CFW::Handle han = MultiYieldValueTest();
+	pFW->AddCoroutine(han);
+
+	while (pFW->AreCoroutinesRunning())
+	{
+		int value = han.GetValue<int>();
+		REQUIRE(value == 3 * loopCount);
+		pFW->Update();
+		++loopCount;
+	}
+
+	delete pFW;
+	REQUIRE(loopCount == 3);
+}
