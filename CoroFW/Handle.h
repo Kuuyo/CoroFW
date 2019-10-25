@@ -3,7 +3,7 @@
 
 namespace CFW
 {
-	struct Awaiter;
+	class Awaiter;
 
 	class Handle
 	{
@@ -12,6 +12,7 @@ namespace CFW
 		struct promise_type
 		{
 			Handle get_return_object();
+
 			template <typename T>
 			std::experimental::suspend_always yield_value(const T &value)
 			{
@@ -22,6 +23,19 @@ namespace CFW
 				m_Value = (void*)value;
 				return std::experimental::suspend_always();
 			}
+
+//			template <typename T>
+//			void return_value(const T& value)
+//			{
+//#ifdef _DEBUG
+//				const type_info& ti = typeid(T);
+//				m_TypeHash = ti.hash_code();
+//#endif
+//				m_Value = (void*)value;
+//			}
+
+			//void return_void() {}
+
 			std::experimental::suspend_never initial_suspend();
 			std::experimental::suspend_always final_suspend();
 
@@ -71,11 +85,13 @@ namespace CFW
 		bool m_IsValid{ true };
 	};
 
-	struct Awaiter
+	class Awaiter
 	{
+	private:
 		std::experimental::coroutine_handle<Handle::promise_type> m_AwaiterCoroHandle;
 		Handle::promise_type* m_pPromise{ nullptr };
 
+	public:
 		Awaiter(const std::experimental::coroutine_handle<Handle::promise_type> &handle, Handle::promise_type* pPromise);
 
 		bool await_ready() noexcept;

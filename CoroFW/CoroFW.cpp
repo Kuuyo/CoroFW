@@ -140,9 +140,16 @@ namespace CFW
 				m_DeleteVec.push_back(i);
 		}
 
-#ifndef NO_DELETE_UPDATE
-		DeleteUpdate();
-#endif	
+#ifdef _DEBUG
+		if (!m_DeleteVec.empty())
+		{
+			printf("CoroFW::UpdateLoop > All coroutines are done, but no DeleteUpdate was called.\n\
+		> Calling DeleteUpdate\n\
+		> NOTE: This will not happen automatically in Release,\n\
+		add DeleteUpdate to avoid memory leaks in Release\n\n");
+			DeleteUpdate();
+		}
+#endif
 	}
 
 	inline void CoroFW::AddSingleCoroutine(std::vector<Handle>& vec, const Handle &coro)
