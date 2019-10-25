@@ -56,7 +56,7 @@ namespace CFW
 		RemoveSingleCoroutine(m_CoroVec, coro);
 	}
 
-	void CoroFW::RemoveCoroutine(int coro)
+	void CoroFW::RemoveCoroutine(size_t coro)
 	{
 		RemoveSingleCoroutine(m_CoroVec, coro);
 	}
@@ -80,7 +80,7 @@ namespace CFW
 		RemoveSingleCoroutine(m_FixedCoroVec, coro);
 	}
 
-	void CoroFW::RemoveFixedCoroutine(int coro)
+	void CoroFW::RemoveFixedCoroutine(size_t coro)
 	{
 		RemoveSingleCoroutine(m_FixedCoroVec, coro);
 	}
@@ -104,7 +104,7 @@ namespace CFW
 		RemoveSingleCoroutine(m_EndCoroVec, coro);
 	}
 
-	void CoroFW::RemoveEndCoroutine(int coro)
+	void CoroFW::RemoveEndCoroutine(size_t coro)
 	{
 		RemoveSingleCoroutine(m_EndCoroVec, coro);
 	}
@@ -161,7 +161,7 @@ namespace CFW
 		vec.push_back(coro);
 	}
 
-	inline void CoroFW::RemoveSingleCoroutine(std::vector<Handle>& vec, int coro)
+	inline void CoroFW::RemoveSingleCoroutine(std::vector<Handle>& vec, size_t coro)
 	{
 		vec[coro].Destroy();
 		vec[coro] = vec.back();

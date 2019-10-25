@@ -40,16 +40,16 @@ namespace CFW
 		std::vector<Handle> m_CoroVec;
 		std::vector<Handle> m_FixedCoroVec;
 		std::vector<Handle> m_EndCoroVec;
-		std::vector<int> m_DeleteVec;
+		std::vector<size_t> m_DeleteVec;
 
-		void RemoveCoroutine(int coro);
-		void RemoveFixedCoroutine(int coro);
-		void RemoveEndCoroutine(int coro);
+		void RemoveCoroutine(size_t coro);
+		void RemoveFixedCoroutine(size_t coro);
+		void RemoveEndCoroutine(size_t coro);
 
 		inline void UpdateLoop(std::vector<Handle> &vec);
 
 		inline void AddSingleCoroutine(std::vector<Handle>& vec, const Handle &coro);
-		inline void RemoveSingleCoroutine(std::vector<Handle>& vec, int coro);
+		inline void RemoveSingleCoroutine(std::vector<Handle>& vec, size_t coro);
 		inline void RemoveSingleCoroutine(std::vector<Handle>& vec, Handle& coro);
 		inline void RemoveCoroutineVector(std::vector<Handle>& vec);
 	};
