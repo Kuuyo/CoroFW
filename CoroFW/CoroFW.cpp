@@ -134,22 +134,22 @@ namespace CFW
 #pragma region Helpers
 	inline void CoroFW::UpdateLoop(std::vector<Handle>& vec)
 	{
-		for (size_t i = 0; i < vec.size(); ++i)
-		{
-			if (!vec[i].Resume())
-				m_DeleteVec.push_back(i);
-		}
-
 #ifdef _DEBUG
 		if (!m_DeleteVec.empty())
 		{
-			printf("CoroFW::UpdateLoop > All coroutines are done, but no DeleteUpdate was called.\n\
+			printf("CoroFW::UpdateLoop > All coroutines are done, but no DeleteUpdate was called last frame.\n\
 		> Calling DeleteUpdate\n\
 		> NOTE: This will not happen automatically in Release,\n\
 		add DeleteUpdate to avoid memory leaks in Release\n\n");
 			DeleteUpdate();
 		}
 #endif
+
+		for (size_t i = 0; i < vec.size(); ++i)
+		{
+			if (!vec[i].Resume())
+				m_DeleteVec.push_back(i);
+		}
 	}
 
 	inline void CoroFW::AddSingleCoroutine(std::vector<Handle>& vec, const Handle &coro)

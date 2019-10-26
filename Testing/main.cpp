@@ -43,6 +43,7 @@ TEST_CASE("YieldNull Check")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;	
 	}
 
@@ -74,6 +75,7 @@ TEST_CASE("Multiple Yield Test")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 	}
 
@@ -97,6 +99,7 @@ TEST_CASE("Chaining Coroutines Check")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 	}
 
@@ -126,6 +129,7 @@ TEST_CASE("WaitWhile Test")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++m_Loops;
 	}
 
@@ -154,6 +158,7 @@ TEST_CASE("WaitUntil Test")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++m_Loops;
 	}
 
@@ -173,6 +178,7 @@ TEST_CASE("Manual Remove Single Coroutine test")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 		if (loopCount == 2)
 		{
@@ -202,6 +208,7 @@ TEST_CASE("Manual Remove Multiple Coroutines test")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 
 		if (loopCount == 1)
@@ -235,6 +242,7 @@ TEST_CASE("RemoveAll test")
 	{
 		pFW->RemoveAll();
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 	}
 
@@ -257,6 +265,7 @@ TEST_CASE("RemoveEverything test")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 		pFW->FixedUpdate();
 		pFW->RemoveEverything();
@@ -289,6 +298,7 @@ TEST_CASE("Adding and removing test")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 		pFW->FixedUpdate();
 		pFW->RemoveEverything();
@@ -327,6 +337,7 @@ TEST_CASE("YieldValue Check")
 	while (pFW->AreCoroutinesRunning())
 	{
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 	}
 
@@ -357,6 +368,7 @@ TEST_CASE("Multi YieldValue Check")
 		int value = han.GetValue<int>();
 		REQUIRE(value == 3 * loopCount);
 		pFW->Update();
+		pFW->DeleteUpdate();
 		++loopCount;
 	}
 
