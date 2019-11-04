@@ -124,7 +124,7 @@ namespace CFW
 		RemoveAllEnd();
 	}
 
-	bool CoroFW::AreCoroutinesRunning()
+	bool CoroFW::AreCoroutinesRunning() const
 	{
 		return !m_CoroVec.empty();
 	}
